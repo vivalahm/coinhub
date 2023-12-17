@@ -1,18 +1,23 @@
 package com.vivalahm.coinhub.service;
 
 import com.vivalahm.coinhub.feign.BithumbFeignClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-public class BithumbMarketService implements MarketService {
+import java.util.List;
 
-  @Autowired
-  BithumbFeignClient bithumbFeignClient;
+@Service
+@RequiredArgsConstructor
+public class BithumbMarketService implements MarketService {
+  private final BithumbFeignClient bithumbFeignClient;
   @Override
   public double getCoinCurrentPrice(String coin) {
     return Double.parseDouble(bithumbFeignClient.getCoinPrice(coin.toUpperCase() + "_KRW")
       .getData()
       .getClosing_price());
+  }
+
+  public List<String> getCoins() {
+    return List.of("A","B","C");
   }
 }

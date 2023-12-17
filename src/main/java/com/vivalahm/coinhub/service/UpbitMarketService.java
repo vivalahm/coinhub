@@ -1,18 +1,23 @@
 package com.vivalahm.coinhub.service;
 
 import com.vivalahm.coinhub.feign.UpbitFeignClient;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-public class UpbitMarketService implements MarketService {
+import java.util.List;
 
-  @Autowired
-  UpbitFeignClient upbitFeignClient;
+@Service
+@RequiredArgsConstructor
+public class UpbitMarketService implements MarketService {
+  private final UpbitFeignClient upbitFeignClient;
   @Override
   public double getCoinCurrentPrice(String coin) {
     return upbitFeignClient.getCoinPrice("KRW-" + coin.toUpperCase())
       .get(0)
       .getTrade_price();
+  }
+
+  public List<String> getCoins() {
+    return List.of("A","B","D");
   }
 }
